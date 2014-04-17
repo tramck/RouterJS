@@ -1,4 +1,5 @@
 describe( 'Router', function() {
+	'use strict';
 
 	it('should export as a global', function() {
 		var router = new Router({

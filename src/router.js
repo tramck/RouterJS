@@ -5,6 +5,8 @@
 		var _option;
 
 		this.routes = routes;
+		this.root = '/';
+		// this.scope = arguments.callee.caller;
 
 		if (typeof options === 'object') {
 			for (_option in options) {

@@ -18,7 +18,47 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['src/*.js', 'spec/*.js']
+      options: {
+        bitwise: true,
+        curly: true,
+        eqeqeq: true,
+        forin: true,
+        freeze: true,
+        immed: true,
+        indent: 2,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        nonbsp: true,
+        plusplus: true,
+        quotmark: 'single',
+        undef: true,
+        unused: true,
+        strict: true,
+        trailing: true,
+        globals: {
+          console: true,
+          window: true,
+        }
+      },
+      all: {
+        files: {
+          src: ['src/*.js', ]
+        }
+      },
+      spec: {
+        files: {
+          src: ['spec/*.js']
+        },
+        options: {
+          globals: {
+            describe: true,
+            it: true,
+            expect: true,
+            Router: true
+          }
+        }
+      }
     },
     watch: {
       options: {
@@ -26,7 +66,7 @@ module.exports = function(grunt) {
       },
       src: {
         files: ['src/**/*.js', 'spec/**/*.js'],
-        tasks: ['jshint:all', 'jasmine:all', 'uglify:dist']
+        tasks: ['jshint', 'jasmine:all', 'uglify:dist']
       },
       config: {
         files: ['Gruntfile.js', 'package.json'],
