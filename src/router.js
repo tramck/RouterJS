@@ -9,11 +9,7 @@
     }
 
     if (typeof options === 'object') {
-      for (_option in options) {
-        if (options.hasOwnProperty(_option)) {
-          this[_option] = options[_option];
-        }
-      }
+      this.configure(options)
     }
   };
 
