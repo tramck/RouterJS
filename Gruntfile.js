@@ -8,12 +8,18 @@ module.exports = function(grunt) {
             ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
             ' */\n',
     jasmine: {
-      all: {
+      before: {
         src: ['src/*.js'],
         options: {
           vendor: ['node_modules/sinon/pkg/sinon.js',],
-          specs: 'spec/**/*.js',
-          keepRunner: true
+          specs: 'spec/**/*.js'
+        }
+      },
+      after: {
+        src: ['dist/*.js'],
+        options: {
+          vendor: ['node_modules/sinon/pkg/sinon.js',],
+          specs: 'spec/**/*.js'
         }
       }
     },
@@ -25,7 +31,6 @@ module.exports = function(grunt) {
         forin: true,
         freeze: true,
         immed: true,
-        indent: 2,
         latedef: true,
         newcap: true,
         noarg: true,
@@ -36,6 +41,7 @@ module.exports = function(grunt) {
         unused: true,
         strict: true,
         trailing: true,
+        validthis: true,
         globals: {
           console: true,
           window: true,
@@ -55,7 +61,9 @@ module.exports = function(grunt) {
             describe: true,
             it: true,
             expect: true,
-            Router: true
+            Router: true,
+            beforeEach: true,
+            afterEach: true
           }
         }
       }
@@ -66,7 +74,7 @@ module.exports = function(grunt) {
       },
       src: {
         files: ['src/**/*.js', 'spec/**/*.js'],
-        tasks: ['jshint', 'jasmine:all', 'uglify:dist']
+        tasks: ['jshint', 'uglify:dist', 'jasmine']
       },
       config: {
         files: ['Gruntfile.js', 'package.json'],
