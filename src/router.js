@@ -78,7 +78,7 @@
         };
       }
 
-      // tests an input to see if it is _routes.addRoute
+      // tests an input to see if it is _routes.add
       function isNotRouteAdd(a) {
         return a !== b;
       }
@@ -95,9 +95,9 @@
           routeSegments = r.split('/');
           test = testRoute(routeSegments, locationSegments);
           if (test && locationSegments.length === routeSegments.length) {
-            test.wildcards.shift();
+            // console.log(typeof test.wildcards, test.wildcards);
             if (typeof _routes[r] === 'function') {
-              _routes[r].call(test.wildcards);
+              _routes[r].apply(_routes[r], test.wildcards);
             }
             else {
               _config.scope[_routes[r]].apply(_config.scope, test.wildcards);

@@ -34,7 +34,7 @@ describe( 'Router', function() {
     expect(test).toBe('foo');
   });
 
-  it('should route to correct method', function() {
+  it('should route to method within scope', function() {
     var test = false,
         app = {};
 
@@ -45,6 +45,57 @@ describe( 'Router', function() {
     var router = new Router({'/_SpecRunner.html': 'myFun'}, {scope: app});
     router.start();
     expect(test).toBe(true);
+  });
+
+  it('should be able to take wildcard params', function() {
+    var test = 'false',
+    myFun = function(a) {
+      test = a;
+    };
+
+    var router = new Router({'/:name': myFun});
+    router.start();
+    expect(test).toBe('_SpecRunner.html');
+  });
+
+  describe( 'Router.addRoute', function() {
+    it('should work with a scoped method', function() {
+      var test = false,
+          app = {};
+
+      app.myFun = function() {
+        test = true;
+      };
+
+      var router = new Router({}, {scope: app});
+      router.addRoute({'/_SpecRunner.html': 'myFun'});
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('should work with function from current scope', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      var router = new Router();
+      router.addRoute({'/_SpecRunner.html': myFun});
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('should work without an object', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      var router = new Router();
+      router.addRoute('/_SpecRunner.html', myFun);
+      router.start();
+      expect(test).toBe(true);
+    });
   });
 
   describe( 'Router.route', function() {
