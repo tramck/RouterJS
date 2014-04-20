@@ -2,20 +2,18 @@
   'use strict';
 
   var Router = function(routes, options) {
-    var _option;
-
     if (typeof routes === 'object') {
       this.addRoute(routes);
     }
-
     if (typeof options === 'object') {
-      this.configure(options)
+      this.configure(options);
     }
   };
 
   Router.prototype = (function() {
-    
-    function addToObject(data) {
+    // naming this `b` fixes issue in minified version
+    // where isNotRouteAdd wasn't working
+    function b(data) {
       for (var d in data) {
         if (data.hasOwnProperty(d)) {
           this[d] = data[d];
@@ -28,10 +26,10 @@
         start,
         route,
         _routes = {
-          add: addToObject
+          add: b
         },
         _config = {
-          add: addToObject,
+          add: b,
           root: '/',
           scope: window
         };
@@ -62,6 +60,7 @@
       }
       
       function testRoute(routeSegments, locationSegments) {
+        // console.log(1, routeSegments, 2, locationSegments);
         var wildcards = [],
             _i;
 
@@ -79,20 +78,30 @@
         };
       }
 
+      // tests an input to see if it is _routes.addRoute
+      function isNotRouteAdd(a) {
+        return a !== b;
+      }
+
       var r,
           routeSegments,
           test,
           locationSegments = parseLocation(window.location.pathname);
 
-      // loop through _routes object    
+      // loop through _routes object
       for (r in _routes) {
-        if (_routes.hasOwnProperty(r)) {
+        if (_routes.hasOwnProperty(r) && isNotRouteAdd(_routes[r])) {
           // create arrays of the target url    
           routeSegments = r.split('/');
           test = testRoute(routeSegments, locationSegments);
           if (test && locationSegments.length === routeSegments.length) {
             test.wildcards.shift();
-            _config.scope[_routes[r]].apply(_config.scope, test.wildcards);
+            if (typeof _routes[r] === 'function') {
+              _routes[r].call(test.wildcards);
+            }
+            else {
+              _config.scope[_routes[r]].apply(_config.scope, test.wildcards);
+            }
           }
         }
       }

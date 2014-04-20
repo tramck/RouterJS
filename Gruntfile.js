@@ -12,14 +12,16 @@ module.exports = function(grunt) {
         src: ['src/*.js'],
         options: {
           vendor: ['node_modules/sinon/pkg/sinon.js',],
-          specs: 'spec/**/*.js'
+          specs: 'spec/**/*.js',
+          host: 'http://localhost:4000'
         }
       },
       after: {
         src: ['dist/*.js'],
         options: {
           vendor: ['node_modules/sinon/pkg/sinon.js',],
-          specs: 'spec/**/*.js'
+          specs: 'spec/**/*.js',
+          host: 'http://localhost:4000'
         }
       }
     },
@@ -57,14 +59,27 @@ module.exports = function(grunt) {
           src: ['spec/*.js']
         },
         options: {
+          unused: false,
           globals: {
             describe: true,
             it: true,
             expect: true,
             Router: true,
             beforeEach: true,
-            afterEach: true
+            afterEach: true,
+            window: true,
+            console: true,
+            require: true,
+            phantom: true
           }
+        }
+      }
+    },
+    connect: {
+      server: {
+        options: {
+          port: 4000,
+          base: '.'
         }
       }
     },
@@ -99,10 +114,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt');
 
   grunt.registerTask('build', ['uglify'])
 
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['connect', 'watch']);
 
 };

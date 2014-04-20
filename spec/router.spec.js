@@ -1,90 +1,56 @@
 describe( 'Router', function() {
-	'use strict';
+  'use strict';
 
-	it('should export as a global', function() {
-		var router = new Router({
-			'/path/to/:id': 'functionName'
-		}, {
-			root: '/root/path',
-			scope: 'myObj'
-		});
-		expect(typeof router).toBe('object');
-	});
-	
-	describe( 'Constructor', function() {
+  it('should export as a global', function() {
+    var router = new Router();
+    expect(typeof router).toBe('object');
+  });
 
-		it('should set routes', function() {
-			var routes = {
-				'/path/to/:id': 'functionName'
-			},
-			router = new Router(routes);
-			expect(router.routes).toBe(routes);
-		});
+  it('should default to current scope', function() {
+    var test = false,
+    myFun = function() {
+      test = true;
+    };
 
-		it('should set root', function() {
-			var routes = {
-				'/path/to/:id': 'functionName'
-			},
-			options = {
-				root: '/root/path',
-				scope: 'myObj'
-			},
-			router = new Router(routes, options);
-			expect(router.root).toBe(options.root);
-		});
+    var router = new Router({'/_SpecRunner.html': myFun});
+    router.start();
+    expect(test).toBe(true);
+  });
 
-		it('should set scope', function() {
-			var routes = {
-				'/path/to/:id': 'functionName'
-			},
-			options = {
-				root: '/root/path',
-				scope: 'myObj'
-			},
-			router = new Router(routes, options);
-			expect(router.scope).toBe(options.scope);
-		});
-	});
+  it('should use the correct function', function() {
+    var test = 'hello',
+    myFun = function() {
+      test = 'foo';
+    },
+    another = function() {
+      test = 'bar';
+    };
 
-	describe( 'Router.configure', function() {
-		var router;
-		
-		beforeEach( function() {
-			router = new Router();
-		});
+    var router = new Router({
+      '/_SpecRunner.html': myFun,
+      '/hello': another
+    });
+    router.start();
+    expect(test).toBe('foo');
+  });
 
-		it('should be able to set root with a string', function() {
-			router.configure('root', '/my/path');
-			expect(router.root).toBe('/my/path');
-		});
+  it('should route to correct method', function() {
+    var test = false,
+        app = {};
 
-		it('should be able to set scope with a string', function() {
-			router.configure('scope', 'myObj');
-			expect(router.scope).toBe('myObj');
-		});
+    app.myFun = function() {
+      test = true;
+    };
 
-		it('should be able to set scope with a string', function() {
-			router.configure('scope', 'myObj');
-			expect(router.scope).toBe('myObj');
-		});
-	});
+    var router = new Router({'/_SpecRunner.html': 'myFun'}, {scope: app});
+    router.start();
+    expect(test).toBe(true);
+  });
 
-	describe( 'Router.addRoute', function() {
-		it('placeholder', function() {
-			expect(true).toBe(true);
-		});
-	});
-
-	describe( 'Router.start', function() {
-		it('placeholder', function() {
-			expect(true).toBe(true);
-		});
-	});
-
-	describe( 'Router.route', function() {
-		it('placeholder', function() {
-			expect(true).toBe(true);
-		});
-	});
+  describe( 'Router.route', function() {
+    it('placeholder', function() {
+      expect(true).toBe(true);
+    });
+  });
 
 });
