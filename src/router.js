@@ -13,6 +13,8 @@
   Router.prototype = (function() {
     // naming this `b` fixes issue in minified version
     // where isNotRouteAdd wasn't working
+    // because its name gets minified to b
+    // and isNotRouteAdd tests the function name
     function b(data) {
       for (var d in data) {
         if (data.hasOwnProperty(d)) {
@@ -44,9 +46,14 @@
     };
 
     addRoute = function(route) {
+      var routeObj = {};
       if (typeof route === 'object') {
-        _routes.add(route);
+        routeObj = route;
       }
+      else if (typeof route === 'string' && arguments[1]) {
+        routeObj[arguments[0]] = arguments[1];
+      }
+      _routes.add(routeObj);
     };
 
     start = function() {

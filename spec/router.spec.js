@@ -58,6 +58,36 @@ describe( 'Router', function() {
     expect(test).toBe('_SpecRunner.html');
   });
 
+  describe( 'Router.configure', function() {
+    it('it should be able to configure scope', function() {
+      var test = false,
+          app = {};
+
+      app.myFun = function() {
+        test = true;
+      };
+
+      var router = new Router({'/_SpecRunner.html': 'myFun'});
+      router.configure({scope: app});
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('it should be able to configure root', function() {
+      // var test = false,
+      //     app = {};
+
+      // app.myFun = function() {
+      //   test = true;
+      // };
+
+      // var router = new Router({'/_SpecRunner.html': 'myFun'});
+      // router.configure({root: '/something'});
+      // router.start();
+      // expect(test).toBe(true);
+    });
+  });
+
   describe( 'Router.addRoute', function() {
     it('should work with a scoped method', function() {
       var test = false,
@@ -81,6 +111,35 @@ describe( 'Router', function() {
 
       var router = new Router();
       router.addRoute({'/_SpecRunner.html': myFun});
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('should work with constructor-defined scope', function() {
+      var test = false,
+          app = {};
+      
+      app.myFun = function() {
+        test = true;
+      };
+
+      var router = new Router({}, {scope: app});
+      router.addRoute({'/_SpecRunner.html': 'myFun'});
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('should work with configure:scope', function() {
+      var test = false,
+          app = {};
+      
+      app.myFun = function() {
+        test = true;
+      };
+
+      var router = new Router();
+      router.addRoute({'/_SpecRunner.html': 'myFun'});
+      router.configure({scope: app});
       router.start();
       expect(test).toBe(true);
     });
