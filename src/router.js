@@ -87,7 +87,11 @@
     // will run every 50ms
     // look for changes in window.location
     function poll() {
-
+      // do nothing if no changes
+      if (location !== window.location.pathname) {
+        location = window.location.pathname;
+        doRoute(_routes, location);
+      }
     }
 
     var _routes = {
@@ -96,9 +100,11 @@
         _config = {
           add: b,
           root: '',
-          scope: window
+          scope: window,
+          pollIntveral: 50
         },
         polling,
+        location,
 
     configure = function() {
       if (typeof arguments[0] === 'object') {
@@ -122,7 +128,8 @@
 
     start = function(trigger) {
       // start polling for changes in window location pathname
-      polling = window.setInterval(poll, 50);
+      location = window.location.pathname;
+      polling = window.setInterval(poll, _config.pollIntveral);
       var pathname,
           _trigger = (trigger !== undefined) ? trigger : true;
       if (_trigger) {
@@ -132,30 +139,24 @@
     },
 
     stop = function() {
-      // clear poll interaval
+      // clear poll interval
       window.clearInterval(polling);
     },
 
     route = function(pathname, options) {
-      // trigger defaults to true
       // replace defaults to false
-      var trigger = (options.trigger !== undefined) ? options.trigger : true,
-          replace = (options.replace !== undefined) ? options.replace : false,
-          _pathname = removeRootFromPath(pathname);
+      var replace = (options.replace !== undefined) ? options.replace : false;
 
       stop();
 
       if (replace) {
-        window.location.pathname = pathname;
+        window.history.replaceState({}, '', pathname);
       }
       else {
-        // create history event
+        window.history.pushState({}, '', pathname);
       }
 
-      if (trigger) {
-        doRoute(_routes, _pathname);
-      }
-
+      // start polling without triggering a new doRoute
       start(false);
     };
 
