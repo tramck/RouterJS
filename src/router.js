@@ -150,10 +150,20 @@
       stop();
 
       if (replace) {
-        window.history.replaceState({}, '', pathname);
+        if (window.History) {
+          window.History.replaceState({}, '', pathname);
+        }
+        else {
+          window.history.replaceState({}, '', pathname);
+        }
       }
       else {
-        window.history.pushState({}, '', pathname);
+        if (window.History) {
+          window.History.pushState({}, '', pathname);
+        }
+        else {
+          window.history.pushState({}, '', pathname);
+        }
       }
 
       // start polling without triggering a new doRoute
