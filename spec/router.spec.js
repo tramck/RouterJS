@@ -171,8 +171,32 @@ describe( 'Router', function() {
   });
 
   describe( 'Router.route', function() {
-    it('placeholder', function() {
-      expect(true).toBe(true);
+    it('should change pathname', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      jasmine.fakeWindow.location.pathname = '/foo/bar';
+
+      var router = new Router({'/home': myFun}, {window: jasmine.fakeWindow});
+      router.start();
+      router.route('/home');
+      expect(jasmine.fakeWindow.location.pathname).toBe('/home');
+    });
+
+    it('should not trigger route', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      jasmine.fakeWindow.location.pathname = '/foo/bar';
+
+      var router = new Router({'/home': myFun}, {window: jasmine.fakeWindow});
+      router.start();
+      router.route('/home');
+      expect(test).toBe(false);
     });
   });
 

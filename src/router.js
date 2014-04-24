@@ -151,8 +151,10 @@
     },
 
     route = function(pathname, options) {
+
       // replace defaults to false
-      var replace = (options.replace !== undefined) ? options.replace : false;
+      var _options = options || {},
+          replace = (_options.replace !== undefined) ? _options.replace : false;
 
       // stop polling for changes in window.location.pathname
       // to avoid calling doRoute
