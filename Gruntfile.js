@@ -87,6 +87,14 @@ module.exports = function(grunt) {
         }
       }
     },
+    docco: {
+      create: {
+        src: ['index.js'],
+        options: {
+          output: 'docs/'
+        }
+      }
+    },
     watch: {
       options: {
         livereload: true
@@ -103,6 +111,10 @@ module.exports = function(grunt) {
       },
       example: {
         files: ['example/**/*']
+      },
+      docs: {
+        files: ['index.js'],
+        tasks: ['docco']
       }
     },
     uglify: {
@@ -122,6 +134,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt');
 
   grunt.registerTask('build', ['uglify'])

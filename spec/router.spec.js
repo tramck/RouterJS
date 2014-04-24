@@ -168,6 +168,21 @@ describe( 'Router', function() {
       router.start();
       expect(test).toBe(true);
     });
+
+    it('should work without an object, with scope', function() {
+      var test = false,
+          app = {};
+      
+      app.myFun = function() {
+        test = true;
+      };
+
+      var router = new Router();
+      router.addRoute('/_SpecRunner.html', 'myFun');
+      router.configure({scope: app});
+      router.start();
+      expect(test).toBe(true);
+    });
   });
 
   describe( 'Router.route', function() {

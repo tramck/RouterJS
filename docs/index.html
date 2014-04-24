@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Router.JS</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="router-js">Router.JS</h1>
+<p>Router.JS is a stand-alone javascript router that works very much like the Backbone router, but with a couple of advantages: mainly it’s small in weight and doesn’t rely on any frameworks or libraries such as Underscore.</p>
+<p>As an added bonus if HistoryJS is found to be present, RouterJS will use the HistoryJS listeners and triggers.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2 id="basic-usage">Basic Usage</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Say, for instance, we have some functions <code>foo</code> and <code>bar</code> that we want to run only at certain URLs. </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span><span class="hljs-params">()</span> {</span> ... }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span><span class="hljs-params">(id)</span> {</span> ... }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>The router is instantiated with a routes object that is structured exactly like the routes object in Backbone. The keys in this object act as matchers for the url path. The values are the functions that will run with that path is reached. </p>
+<p>Any path segment prefixed with a colon, like <code>/:id</code> will get treated as a wildcard and it’s value will be passed as an argument into the function that gets run by the route.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> Router({
+  <span class="hljs-string">'/foo'</span>: <span class="hljs-string">'foo'</span>,
+  <span class="hljs-string">'/bar/:id'</span>: <span class="hljs-string">'bar'</span>
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Once the router has been configured the <code>start</code> method is run to trigger the current page’s route function and start polling for changes in <code>window.location.pathname</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.start();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h2 id="the-constructor">The Constructor</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>A router can be instantiated without requiring any arguments.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> Router();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>An optional routes object can be passed into the constructor</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> Router({
+  <span class="hljs-string">'/foo'</span>: <span class="hljs-string">'foo'</span>,
+  <span class="hljs-string">'/bar/:id'</span>: <span class="hljs-string">'bar'</span>
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>In addition to the routes object, the constructor can take an optial configuration object as a second argument.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> Router(routesObj, {
+  scope: app,
+  root: <span class="hljs-string">'/profile'</span>
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h2 id="configure">configure</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>The <code>configure</code> method configures settings that affect the functionality of your router. Options can be passed in singularly as two string arguments.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.configure(<span class="hljs-string">'scope'</span>, <span class="hljs-string">'myObj'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h3 id="configuration-options">Configuration options</h3>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <ul>
+<li><code>scope</code>: (type: ‘object’, default: <code>this</code>) The object that the router will look for methods within. Default scope is the function / object that Router is instantiated within.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> app = { ... };
+router.configure({ scope: app });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <ul>
+<li><code>root</code>: (type: ‘string’, default: <code>&#39;/&#39;</code>) The root path you app is running on.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.configure({ root: <span class="hljs-string">'/my/app/'</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <h2 id="addroute">addRoute</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Routes can also be added with the <code>addRoute</code> method. Routes can be passed into <code>addRoute</code> two ways. It can take a single routes object as an argument.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.addRoute({<span class="hljs-string">'/profile/:id'</span>: <span class="hljs-string">'profilePage'</span>});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Or the route object’s key and value can be passed into <code>addRoute</code> as two separate arguments.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.addRoute({<span class="hljs-string">'/profile/:id'</span>: <span class="hljs-string">'profilePage'</span>});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <script>
+console.log('hello');
+</script>
+
+            </div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
