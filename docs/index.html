@@ -189,11 +189,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>The <code>configure</code> method configures settings that affect the functionality of your router. Options can be passed in singularly as two string arguments.</p>
+              <p>The <code>configure</code> method configures settings that affect the functionality of your router. Options can be passed in singularly as two arguments.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>router.configure(<span class="hljs-string">'scope'</span>, <span class="hljs-string">'myObj'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>router.configure(<span class="hljs-string">'scope'</span>, myObj);</pre></div></div>
             
         </li>
         
@@ -204,9 +204,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <h3 id="configuration-options">Configuration options</h3>
+              <p>Or plurally with a configuration object, like the one that can get passed into the second argument of the constructor.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>router.configure({
+  scope: myObj, 
+  root: <span class="hljs-string">'/example/test'</span>
+});</pre></div></div>
             
         </li>
         
@@ -216,6 +221,19 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <h4 id="options">Options</h4>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <ul>
 <li><code>scope</code>: (type: ‘object’, default: <code>this</code>) The object that the router will look for methods within. Default scope is the function / object that Router is instantiated within.</li>
@@ -229,11 +247,11 @@ router.configure({ scope: app });</pre></div></div>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <ul>
 <li><code>root</code>: (type: ‘string’, default: <code>&#39;/&#39;</code>) The root path you app is running on.</li>
@@ -246,30 +264,15 @@ router.configure({ scope: app });</pre></div></div>
         </li>
         
         
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <h2 id="addroute">addRoute</h2>
-
-            </div>
-            
-        </li>
-        
-        
         <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Routes can also be added with the <code>addRoute</code> method. Routes can be passed into <code>addRoute</code> two ways. It can take a single routes object as an argument.</p>
+              <h2 id="addroute">addRoute</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>router.addRoute({<span class="hljs-string">'/profile/:id'</span>: <span class="hljs-string">'profilePage'</span>});</pre></div></div>
             
         </li>
         
@@ -280,7 +283,7 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>Or the route object’s key and value can be passed into <code>addRoute</code> as two separate arguments.</p>
+              <p>Routes can also be added with the <code>addRoute</code> method. Routes can be passed into <code>addRoute</code> two ways. It can take a single routes object as an argument.</p>
 
             </div>
             
@@ -294,6 +297,60 @@ router.configure({ scope: app });</pre></div></div>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Or the route object’s key and value can be passed into <code>addRoute</code> as two separate arguments.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.addRoute({<span class="hljs-string">'/profile/:id'</span>: <span class="hljs-string">'profilePage'</span>});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="start">start</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h2 id="stop">stop</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h2 id="route">route</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <script>
 console.log('hello');

@@ -36,14 +36,19 @@ var router = new Router(routesObj, {
 
 // ## configure
 
-// The `configure` method configures settings that affect the functionality of your router. Options can be passed in singularly as two string arguments.
-router.configure('scope', 'myObj');
-
-// ### Configuration options
+// The `configure` method configures settings that affect the functionality of your router. Options can be passed in singularly as two arguments.
+router.configure('scope', myObj);
+// Or plurally with a configuration object, like the one that can get passed into the second argument of the constructor.
+router.configure({
+  scope: myObj, 
+  root: '/example/test'
+});
+// #### Options
 
 // - `scope`: (type: 'object', default: `this`) The object that the router will look for methods within. Default scope is the function / object that Router is instantiated within.
 var app = { ... };
 router.configure({ scope: app });
+
 // - `root`: (type: 'string', default: `'/'`) The root path you app is running on.
 router.configure({ root: '/my/app/' });
 
@@ -53,6 +58,12 @@ router.configure({ root: '/my/app/' });
 router.addRoute({'/profile/:id': 'profilePage'});
 // Or the route object's key and value can be passed into `addRoute` as two separate arguments.
 router.addRoute({'/profile/:id': 'profilePage'});
+
+// ## start
+
+// ## stop
+
+// ## route
 
 // <script>
 // console.log('hello');
