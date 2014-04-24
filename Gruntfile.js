@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       before: {
         src: ['src/*.js'],
         options: {
-          vendor: ['node_modules/sinon/pkg/sinon.js', 'lib/history.js'],
+          vendor: ['node_modules/sinon/pkg/sinon.js', 'lib/jasmine-fake-window.js'],
           specs: 'spec/**/*.js',
           host: 'http://localhost:4000'
         }
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
       after: {
         src: ['dist/*.js'],
         options: {
-          vendor: ['node_modules/sinon/pkg/sinon.js'],
+          vendor: ['node_modules/sinon/pkg/sinon.js', 'lib/jasmine-fake-window.js'],
           specs: 'spec/**/*.js',
           host: 'http://localhost:4000'
         }
@@ -73,7 +73,8 @@ module.exports = function(grunt) {
             window: true,
             console: true,
             require: true,
-            phantom: true
+            phantom: true,
+            jasmine: true
           }
         }
       }
@@ -107,7 +108,7 @@ module.exports = function(grunt) {
           banner: '<%= banner %>'
         },
         files: {
-          'dist/router.min.js': ['lib/*.js', 'src/*.js']
+          'dist/router.min.js': ['src/*.js']
         }
       }
     }

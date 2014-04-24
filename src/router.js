@@ -84,14 +84,9 @@
       }
     }
 
-    // will run every 50ms
-    // look for changes in window.location
-    function poll() {
-      // do nothing if no changes
-      if (location !== window.location.pathname) {
-        location = window.location.pathname;
-        doRoute(_routes, location);
-      }
+    function onPop() {
+      var pathname = removeRootFromPath(_config.window.location.pathname, _config.root);
+      doRoute(_routes, pathname);
     }
 
     var _routes = {
@@ -101,10 +96,13 @@
           add: b,
           root: '',
           scope: window,
-          pollIntveral: 50
+          pollIntveral: 50,
+          window: window
         },
-        polling,
-        location,
+        _tests = {
+          hasHistoryJS: !!_config.window.History,
+          hasHistoryAPI: !!_config.window.history
+        },
 
     configure = function() {
       if (typeof arguments[0] === 'object') {
@@ -128,41 +126,54 @@
 
     start = function(trigger) {
       // start polling for changes in window location pathname
-      location = window.location.pathname;
-      polling = window.setInterval(poll, _config.pollIntveral);
+      if (_tests.hasHistoryJS) {
+        _config.window.History.Adapter.bind(window,'statechange', onPop);
+      }
+      else if (_tests.hasHistoryAPI) {
+        _config.window.addEventListener('popstate', onPop);
+      }
+
       var pathname,
           _trigger = (trigger !== undefined) ? trigger : true;
       if (_trigger) {
-        pathname = removeRootFromPath(window.location.pathname, _config.root);
+        pathname = removeRootFromPath(_config.window.location.pathname, _config.root);
         doRoute(_routes, pathname);
       }
     },
 
     stop = function() {
-      // clear poll interval
-      window.clearInterval(polling);
+      if (_tests.hasHistoryJS) {
+        _config.window.History.Adapter.bind(_config.window,'statechange', onPop);
+      }
+      else {
+        _config.window.removeEventListener('popstate', onPop);
+      }
     },
 
     route = function(pathname, options) {
       // replace defaults to false
       var replace = (options.replace !== undefined) ? options.replace : false;
 
+      // stop polling for changes in window.location.pathname
+      // to avoid calling doRoute
       stop();
 
       if (replace) {
-        if (window.History) {
-          window.History.replaceState({}, '', pathname);
+        // use HistoryJS when available
+        if (_tests.hasHistoryJS) {
+          _config.window.History.replaceState({}, '', pathname);
         }
         else {
-          window.history.replaceState({}, '', pathname);
+          _config.window.history.replaceState({}, '', pathname);
         }
       }
       else {
-        if (window.History) {
-          window.History.pushState({}, '', pathname);
+        // use HistoryJS when available
+        if (_tests.hasHistoryJS) {
+          _config.window.History.pushState({}, '', pathname);
         }
         else {
-          window.history.pushState({}, '', pathname);
+          _config.window.history.pushState({}, '', pathname);
         }
       }
 
@@ -175,7 +186,7 @@
       addRoute: addRoute,
       start: start,
       stop: stop,
-      route: route,
+      route: route
     };
 
   }());
