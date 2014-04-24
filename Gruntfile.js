@@ -100,6 +100,9 @@ module.exports = function(grunt) {
         options: {
           reload: true
         }
+      },
+      example: {
+        files: ['example/**/*']
       }
     },
     uglify: {

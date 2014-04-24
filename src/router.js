@@ -36,7 +36,6 @@
     }
     
     function testRoute(routeSegments, locationSegments) {
-      // console.log(1, routeSegments, 2, locationSegments);
       var wildcards = [],
           _i;
 
@@ -72,7 +71,6 @@
           routeSegments = r.split('/');
           test = testRoute(routeSegments, locationSegments);
           if (test && locationSegments.length === routeSegments.length) {
-            // console.log(typeof test.wildcards, test.wildcards);
             if (typeof routesObj[r] === 'function') {
               routesObj[r].apply(routesObj[r], test.wildcards);
             }
@@ -89,6 +87,14 @@
       doRoute(_routes, pathname);
     }
 
+    // poll for changes in window.location.pathname
+    function poll() {
+      if (currentPath !== _config.window.location.pathname) {
+        onPop();
+        currentPath = _config.window.location.pathname;
+      }
+    }
+
     var _routes = {
           add: b
         },
@@ -100,9 +106,11 @@
           window: window
         },
         _tests = {
-          hasHistoryJS: !!_config.window.History,
-          hasHistoryAPI: !!_config.window.history
+          hasHistoryJS: (typeof _config.window.History === 'object'),
+          hasHistoryAPI: (typeof _config.window.history === 'object')
         },
+        polling,
+        currentPath,
 
     configure = function() {
       if (typeof arguments[0] === 'object') {
@@ -129,8 +137,10 @@
       if (_tests.hasHistoryJS) {
         _config.window.History.Adapter.bind(window,'statechange', onPop);
       }
-      else if (_tests.hasHistoryAPI) {
-        _config.window.addEventListener('popstate', onPop);
+      else {
+        // start polling
+        currentPath = _config.window.location.pathname;
+        polling = _config.window.setInterval(poll, _config.pollIntveral);
       }
 
       var pathname,
@@ -143,15 +153,15 @@
 
     stop = function() {
       if (_tests.hasHistoryJS) {
-        _config.window.History.Adapter.bind(_config.window,'statechange', onPop);
+        _config.window.History.Adapter.bind(_config.window,'statechange', null);
       }
       else {
-        _config.window.removeEventListener('popstate', onPop);
+        // stop polling
+        _config.window.clearInterval(polling);
       }
     },
 
     route = function(pathname, options) {
-
       // replace defaults to false
       var _options = options || {},
           replace = (_options.replace !== undefined) ? _options.replace : false;

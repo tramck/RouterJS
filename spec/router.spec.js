@@ -171,18 +171,11 @@ describe( 'Router', function() {
   });
 
   describe( 'Router.route', function() {
-    it('should change pathname', function() {
-      var test = false,
-      myFun = function() {
-        test = true;
-      };
+    var _window;
 
-      jasmine.fakeWindow.location.pathname = '/foo/bar';
-
-      var router = new Router({'/home': myFun}, {window: jasmine.fakeWindow});
-      router.start();
-      router.route('/home');
-      expect(jasmine.fakeWindow.location.pathname).toBe('/home');
+    beforeEach(function() {
+      _window = jasmine.fakeWindow;
+      _window.location.pathname = '/foo/bar';
     });
 
     it('should not trigger route', function() {
@@ -191,13 +184,24 @@ describe( 'Router', function() {
         test = true;
       };
 
-      jasmine.fakeWindow.location.pathname = '/foo/bar';
-
-      var router = new Router({'/home': myFun}, {window: jasmine.fakeWindow});
+      var router = new Router({'/home': myFun}, {window: _window});
       router.start();
       router.route('/home');
       expect(test).toBe(false);
     });
+
+    it('should change pathname', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      var router = new Router({'/home': myFun}, {window: _window});
+      router.start();
+      router.route('/home');
+      expect(jasmine.fakeWindow.location.pathname).toBe('/home');
+    });
+
   });
 
 });

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RouterJS Example</title>
+<meta charset="UTF-8">
+</head>
+<body>
+<h1>RouterJS Example</h1>
+
+<a href="/test/1">link to "/example/test/1"</a>
+
+<!-- <script src="../src/router.js"></script> -->
+<script src="../dist/router.min.js"></script>
+<script>
+var links = document.querySelectorAll('a');
+
+for (var i = links.length - 1; i >= 0; i--) {
+  links[i].addEventListener('click', function(e) {
+    console.log('clicked');
+    var href = e.currentTarget.href;
+    e.preventDefault();
+    window.history.pushState({}, '', href);
+  });
+}
+
+var app = {
+  init: function() {
+    alert('init: this should fire immediately');
+  },
+  test: function(id) {
+    alert('test: id = ' + id);
+  }
+};
+
+var router = new Router({
+  '/example': 'init',
+  '/test/:id': 'test'
+}, {
+  scope: app
+});
+
+router.start();
+</script>
+</body>
+</html>
