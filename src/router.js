@@ -49,7 +49,7 @@
       }
 
       return {
-        wildcards: wildcards
+        wildcards: wildcards.reverse()
       };
     }
 
