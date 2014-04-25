@@ -1,5 +1,5 @@
-// # Router.JS
-// Router.JS is a stand-alone javascript router that works very much like the Backbone router, but with a couple of advantages: mainly it's small in weight and doesn't rely on any frameworks or libraries such as Underscore.
+// # RouterJS
+// RouterJS is a small, stand-alone javascript router that works very much like the Backbone router, but with a couple of advantages, mainly it's lightweight and doesn't rely on any frameworks or libraries such as Underscore.
 // 
 // As an added bonus if HistoryJS is found to be present, RouterJS will use the HistoryJS listeners and triggers.
 
@@ -57,15 +57,34 @@ router.configure({ root: '/my/app/' });
 // Routes can also be added with the `addRoute` method. Routes can be passed into `addRoute` two ways. It can take a single routes object as an argument.
 router.addRoute({'/profile/:id': 'profilePage'});
 // Or the route object's key and value can be passed into `addRoute` as two separate arguments.
-router.addRoute({'/profile/:id': 'profilePage'});
+router.addRoute('/profile/:id', 'profilePage');
 
 // ## start
 
+// Once the router has been configured and routes have been added, `start` needs to be called in order to for the router to run it's main functions. 
+// 
+// `start` takes a single boolean argument (default: `true`) that will determine if the router calls the route function for the current url, if one exists.
+router.start();
+// If `false` is passed into `start` the current url's route function, if one exists, will not be triggered.
+router.start(false);
+// 
+// The `start` method does a few things: it starts polling for changes in the url, unless HistoryJS is loaded in which case it will bind the 'statechange' event; 
+
 // ## stop
+
+// The `stop` method causes the router to cease polling for changes in the url, or if using HistoryJS unbinds the 'statechange' event.
+router.stop();
 
 // ## route
 
-// <script>
-// console.log('hello');
-// </script>
-
+// The `route` method is used to update the browser url. It takes a required pathname string as it's first argument and also takes an optional options object as the second argument.
+router.route('/profile/27');
+// The options object can be used to set `replace` and `trigger` both of which default to false.
+// 
+// When `replace` is set to true, the url will be updated using `replaceState` and will not create a new entry in the browser's history object.
+// 
+// When `trigger` is set to true, it will trigger the new url's route function, if one exists.
+router.route('/profile/27', {
+  replace: true,
+  trigger: true
+});

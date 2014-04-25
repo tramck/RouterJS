@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>Router.JS</title>
+  <title>RouterJS</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -21,8 +21,8 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="router-js">Router.JS</h1>
-<p>Router.JS is a stand-alone javascript router that works very much like the Backbone router, but with a couple of advantages: mainly it’s small in weight and doesn’t rely on any frameworks or libraries such as Underscore.</p>
+              <h1 id="routerjs">RouterJS</h1>
+<p>RouterJS is a small, stand-alone javascript router that works very much like the Backbone router, but with a couple of advantages, mainly it’s lightweight and doesn’t rely on any frameworks or libraries such as Underscore.</p>
 <p>As an added bonus if HistoryJS is found to be present, RouterJS will use the HistoryJS listeners and triggers.</p>
 
             </div>
@@ -302,7 +302,7 @@ router.configure({ scope: app });</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>router.addRoute({<span class="hljs-string">'/profile/:id'</span>: <span class="hljs-string">'profilePage'</span>});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>router.addRoute(<span class="hljs-string">'/profile/:id'</span>, <span class="hljs-string">'profilePage'</span>);</pre></div></div>
             
         </li>
         
@@ -326,9 +326,12 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <h2 id="stop">stop</h2>
+              <p>Once the router has been configured and routes have been added, <code>start</code> needs to be called in order to for the router to run it’s main functions. </p>
+<p><code>start</code> takes a single boolean argument (default: <code>true</code>) that will determine if the router calls the route function for the current url, if one exists.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>router.start();</pre></div></div>
             
         </li>
         
@@ -339,9 +342,11 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
-              <h2 id="route">route</h2>
+              <p>If <code>false</code> is passed into <code>start</code> the current url’s route function, if one exists, will not be triggered.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>router.start(<span class="hljs-literal">false</span>);</pre></div></div>
             
         </li>
         
@@ -352,11 +357,85 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <script>
-console.log('hello');
-</script>
+              <p>The <code>start</code> method does a few things: it starts polling for changes in the url, unless HistoryJS is loaded in which case it will bind the ‘statechange’ event; </p>
 
             </div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h2 id="stop">stop</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>The <code>stop</code> method causes the router to cease polling for changes in the url, or if using HistoryJS unbinds the ‘statechange’ event.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.stop();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <h2 id="route">route</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>The <code>route</code> method is used to update the browser url. It takes a required pathname string as it’s first argument and also takes an optional options object as the second argument.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.route(<span class="hljs-string">'/profile/27'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>The options object can be used to set <code>replace</code> and <code>trigger</code> both of which default to false.</p>
+<p>When <code>replace</code> is set to true, the url will be updated using <code>replaceState</code> and will not create a new entry in the browser’s history object.</p>
+<p>When <code>trigger</code> is set to true, it will trigger the new url’s route function, if one exists.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>router.route(<span class="hljs-string">'/profile/27'</span>, {
+  replace: <span class="hljs-literal">true</span>,
+  trigger: <span class="hljs-literal">true</span>
+});</pre></div></div>
             
         </li>
         
