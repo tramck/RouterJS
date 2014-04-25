@@ -99,6 +99,22 @@ describe( 'Router', function() {
       router.start();
       expect(test).toBe(true);
     });
+
+    it('it should work with two strings', function() {
+      var test = false,
+          myFun = function() {
+            test = true;
+          };
+      
+      jasmine.fakeWindow.location.pathname = '/something/hello';
+      // print(jasmine.fakeWindow);
+
+      var router = new Router({'/hello': myFun});
+      router.configure({window: jasmine.fakeWindow});
+      router.configure('root', '/something');
+      router.start();
+      expect(test).toBe(true);
+    });
   });
 
   describe( 'Router.addRoute', function() {
@@ -185,6 +201,41 @@ describe( 'Router', function() {
     });
   });
 
+  describe( 'Router.start', function() {
+    var router,
+    _window = jasmine.fakeWindow,
+    test,
+    app = { hello: function() { test = true; } };
+
+
+    beforeEach( function() {
+      test = false;
+      _window.location.pathname = '/foo';
+      router = new Router({ '/foo': 'hello'}, {window: _window, scope: app});
+    });
+
+    afterEach( function() {
+      router = {};
+    });
+    
+    it('should start polling', function() {
+      var pollSpy = sinon.spy(_window, 'setInterval');
+      router.start();
+      expect(pollSpy.called).toBe(true);
+    });
+
+    it('should trigger route by default', function() {
+      router.start();
+      expect(test).toBe(true);
+    });
+
+    it('should have the option to not trigger route', function() {
+      router.start(false);
+      expect(test).toBe(false);
+    });
+
+  });
+
   describe( 'Router.route', function() {
     var _window;
 
@@ -193,7 +244,7 @@ describe( 'Router', function() {
       _window.location.pathname = '/foo/bar';
     });
 
-    it('should not trigger route', function() {
+    it('should not trigger route by default', function() {
       var test = false,
       myFun = function() {
         test = true;
@@ -203,6 +254,18 @@ describe( 'Router', function() {
       router.start();
       router.route('/home');
       expect(test).toBe(false);
+    });
+
+    it('should be able to trigger a route', function() {
+      var test = false,
+      myFun = function() {
+        test = true;
+      };
+
+      var router = new Router({'/home': myFun}, {window: _window});
+      router.start();
+      router.route('/home', { trigger: true });
+      expect(test).toBe(true);
     });
 
     it('should change pathname', function() {

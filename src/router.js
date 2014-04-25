@@ -164,7 +164,8 @@
     route = function(pathname, options) {
       // replace defaults to false
       var _options = options || {},
-          replace = (_options.replace !== undefined) ? _options.replace : false;
+          replace = (_options.replace !== undefined) ? _options.replace : false,
+          trigger = (_options.trigger !== undefined) ? _options.trigger : false;
 
       // stop polling for changes in window.location.pathname
       // to avoid calling doRoute
@@ -189,8 +190,8 @@
         }
       }
 
-      // start polling without triggering a new doRoute
-      start(false);
+      // start polling and either trigger doRoute or not
+      start(trigger);
     };
 
     return {

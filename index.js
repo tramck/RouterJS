@@ -61,14 +61,12 @@ router.addRoute('/profile/:id', 'profilePage');
 
 // ## start
 
-// Once the router has been configured and routes have been added, `start` needs to be called in order to for the router to run it's main functions. 
+// Once the router has been configured and routes have been added, `start` needs to be called in order to for the router to run it's main functions. The `start` causes the router to begin polling for changes in the url, unless HistoryJS is loaded in which case it will bind the 'statechange' event.
 // 
-// `start` takes a single boolean argument (default: `true`) that will determine if the router calls the route function for the current url, if one exists.
+// `start` takes a single boolean argument (default: `true`) that will determine if the router triggers the route function for the current url, if one exists.
 router.start();
 // If `false` is passed into `start` the current url's route function, if one exists, will not be triggered.
 router.start(false);
-// 
-// The `start` method does a few things: it starts polling for changes in the url, unless HistoryJS is loaded in which case it will bind the 'statechange' event; 
 
 // ## stop
 

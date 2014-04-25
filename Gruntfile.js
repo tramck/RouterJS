@@ -23,6 +23,25 @@ module.exports = function(grunt) {
           specs: 'spec/**/*.js',
           host: 'http://localhost:4000'
         }
+      },
+      coverage: {
+        src: ['src/*.js'],
+        options: {
+          vendor: ['node_modules/sinon/pkg/sinon.js', 'lib/jasmine-fake-window.js'],
+          specs: 'spec/**/*.js',
+          host: 'http://localhost:4000',
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'bin/coverage/coverage.json',
+            report: 'bin/coverage',
+            // thresholds: {
+            //   lines: 75,
+            //   statements: 75,
+            //   branches: 75,
+            //   functions: 90
+            // }
+          }
+        }
       }
     },
     jshint: {
@@ -74,7 +93,8 @@ module.exports = function(grunt) {
             console: true,
             require: true,
             phantom: true,
-            jasmine: true
+            jasmine: true,
+            sinon: true
           }
         }
       }

@@ -326,8 +326,8 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <p>Once the router has been configured and routes have been added, <code>start</code> needs to be called in order to for the router to run it’s main functions. </p>
-<p><code>start</code> takes a single boolean argument (default: <code>true</code>) that will determine if the router calls the route function for the current url, if one exists.</p>
+              <p>Once the router has been configured and routes have been added, <code>start</code> needs to be called in order to for the router to run it’s main functions. The <code>start</code> causes the router to begin polling for changes in the url, unless HistoryJS is loaded in which case it will bind the ‘statechange’ event.</p>
+<p><code>start</code> takes a single boolean argument (default: <code>true</code>) that will determine if the router triggers the route function for the current url, if one exists.</p>
 
             </div>
             
@@ -357,7 +357,7 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>The <code>start</code> method does a few things: it starts polling for changes in the url, unless HistoryJS is loaded in which case it will bind the ‘statechange’ event; </p>
+              <h2 id="stop">stop</h2>
 
             </div>
             
@@ -370,9 +370,11 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <h2 id="stop">stop</h2>
+              <p>The <code>stop</code> method causes the router to cease polling for changes in the url, or if using HistoryJS unbinds the ‘statechange’ event.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>router.stop();</pre></div></div>
             
         </li>
         
@@ -383,11 +385,9 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
-              <p>The <code>stop</code> method causes the router to cease polling for changes in the url, or if using HistoryJS unbinds the ‘statechange’ event.</p>
+              <h2 id="route">route</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>router.stop();</pre></div></div>
             
         </li>
         
@@ -398,19 +398,6 @@ router.configure({ scope: app });</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
-              <h2 id="route">route</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-27">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
-              </div>
               <p>The <code>route</code> method is used to update the browser url. It takes a required pathname string as it’s first argument and also takes an optional options object as the second argument.</p>
 
             </div>
@@ -420,11 +407,11 @@ router.configure({ scope: app });</pre></div></div>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>The options object can be used to set <code>replace</code> and <code>trigger</code> both of which default to false.</p>
 <p>When <code>replace</code> is set to true, the url will be updated using <code>replaceState</code> and will not create a new entry in the browser’s history object.</p>
@@ -440,11 +427,11 @@ router.configure({ scope: app });</pre></div></div>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p><a href="https://github.com/braznaavtrav/RouterJS"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a></p>
 
