@@ -1,4 +1,11 @@
-(function(window) {
+(function (root, factory) {
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    define(factory);
+  } else {
+    root.Router = factory();
+  }
+}(this, function () {
   'use strict';
 
   var Router = function(routes, options) {
@@ -8,6 +15,40 @@
     if (typeof options === 'object') {
       this.configure(options);
     }
+  };
+
+  function parseLocation(location) {
+    if (location.substr(location.length - 1) === '/' && location.length !== 1) {
+      location = location.slice(0, -1);
+    }
+    location = location.split('/');
+    return location;
+  }
+
+  function testRoute(routeSegments, locationSegments) {
+    var wildcards = [],
+        _i;
+
+    for (_i = routeSegments.length - 1; _i >= 0; _i -= 1) {
+      if (locationSegments[_i] !== routeSegments[_i] && routeSegments[_i].charAt(0) !== ':') {
+        return false;
+      }
+      if (routeSegments[_i].charAt(0) === ':') {
+        wildcards.push(locationSegments[_i]);
+      }
+    }
+
+    return {
+      wildcards: wildcards.reverse()
+    };
+  }
+
+  Router.is = function(route, pathname) {
+    var path = pathname ? pathname : window.location.pathname,
+        locationSegments = parseLocation(path),
+        routeSegments = route.split('/'),
+        test = testRoute(routeSegments, locationSegments);
+    return (test && locationSegments.length === routeSegments.length);
   };
 
   Router.prototype = (function() {
@@ -27,31 +68,9 @@
       return pathname.replace(root, '');
     }
 
-    function parseLocation(location) {
-      if (location.substr(location.length - 1) === '/' && location.length !== 1) {
-        location = location.slice(0, -1);
-      }
-      location = location.split('/');
-      return location;
-    }
     
-    function testRoute(routeSegments, locationSegments) {
-      var wildcards = [],
-          _i;
-
-      for (_i = routeSegments.length - 1; _i >= 0; _i -= 1) {
-        if (locationSegments[_i] !== routeSegments[_i] && routeSegments[_i].charAt(0) !== ':') {
-          return false;
-        }
-        if (routeSegments[_i].charAt(0) === ':') {
-          wildcards.push(locationSegments[_i]);
-        }
-      }
-
-      return {
-        wildcards: wildcards.reverse()
-      };
-    }
+    
+    
 
     // tests an input to see if it is _routes.add
     function isNotRouteAdd(a) {
@@ -90,6 +109,7 @@
     // poll for changes in window.location.pathname
     function poll() {
       if (currentPath !== _config.window.location.pathname) {
+        window.dispatchEvent(new window.Event('Router.change'));
         onPop();
         currentPath = _config.window.location.pathname;
       }
@@ -204,6 +224,6 @@
 
   }());
 
-  window.Router = Router;
+  return Router;
 
-}(window));
+}));
