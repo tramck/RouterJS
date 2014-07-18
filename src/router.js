@@ -125,10 +125,10 @@
           pollIntveral: 50,
           window: window
         },
-        _tests = {
-          hasHistoryJS: (typeof _config.window.History === 'object'),
-          hasHistoryAPI: (typeof _config.window.history === 'object')
-        },
+        // _tests = {
+        //   hasHistoryJS: (typeof _config.window.History === 'object'),
+        //   hasHistoryAPI: (typeof _config.window.history === 'object')
+        // },
         polling,
         currentPath,
 
@@ -154,14 +154,14 @@
 
     start = function(trigger) {
       // start polling for changes in window location pathname
-      if (_tests.hasHistoryJS) {
-        _config.window.History.Adapter.bind(window,'statechange', onPop);
-      }
-      else {
+      // if (_tests.hasHistoryJS) {
+      //   _config.window.History.Adapter.bind(window,'statechange', onPop);
+      // }
+      // else {
         // start polling
         currentPath = _config.window.location.pathname;
         polling = _config.window.setInterval(poll, _config.pollIntveral);
-      }
+      // }
 
       var pathname,
           _trigger = (trigger !== undefined) ? trigger : true;
@@ -172,13 +172,13 @@
     },
 
     stop = function() {
-      if (_tests.hasHistoryJS) {
-        _config.window.History.Adapter.bind(_config.window,'statechange', null);
-      }
-      else {
+      // if (_tests.hasHistoryJS) {
+      //   _config.window.History.Adapter.bind(_config.window,'statechange', null);
+      // }
+      // else {
         // stop polling
         _config.window.clearInterval(polling);
-      }
+      // }
     },
 
     route = function(pathname, options) {
@@ -193,21 +193,21 @@
 
       if (replace) {
         // use HistoryJS when available
-        if (_tests.hasHistoryJS) {
-          _config.window.History.replaceState({}, '', pathname);
-        }
-        else {
+        // if (_tests.hasHistoryJS) {
+        //   _config.window.History.replaceState({}, '', pathname);
+        // }
+        // else {
           _config.window.history.replaceState({}, '', pathname);
-        }
+        // }
       }
       else {
         // use HistoryJS when available
-        if (_tests.hasHistoryJS) {
-          _config.window.History.pushState({}, '', pathname);
-        }
-        else {
+        // if (_tests.hasHistoryJS) {
+        //   _config.window.History.pushState({}, '', pathname);
+        // }
+        // else {
           _config.window.history.pushState({}, '', pathname);
-        }
+        // }
       }
 
       // start polling and either trigger doRoute or not
